@@ -24,25 +24,20 @@ const onChange = () => {
   updateBookmark();
 };
 
-const onDropdownClick = (e: React.MouseEvent<HTMLDivElement>) => {
-  const { left, top, height } = e.currentTarget.getBoundingClientRect();
+const onDropdownClick = () => {
   const menu = remote.Menu.buildFromTemplate([
-    ...store.folders.map((folder) => ({
-      label: getBookmarkTitle(folder),
-      click: () => {
-        store.currentFolder = folder;
-        store.bookmark.parent = folder._id;
-        updateBookmark();
-      },
-    })),
-  ]);
-
-  const { x, y } = remote.BrowserView.fromWebContents(
-    remote.getCurrentWebContents(),
-  ).getBounds();
-
-  menu.popup({ x: x + left, y: y + top + height });
-};
+     ...store.folders.map((folder) => ({
+       label: getBookmarkTitle(folder),
+       click: () => {
+         store.currentFolder = folder;
+         store.bookmark.parent = folder._id;
+         updateBookmark();
+       },
+     })),
+   ]);
+ 
+   menu.popup();
+ };
 
 const onRemove = () => {
   if (!store.bookmark) return;

@@ -1,6 +1,6 @@
 {
-  "appId": "org.wexond.wexond",
-  "productName": "Wexond",
+  "appId": "fr.orionhub.searx",
+  "productName": "Orion",
   "nsis": {
     "include": "static/installer.nsh"
   },
@@ -44,7 +44,7 @@
   "fileAssociations": [
     {
       "name": "Document",
-      "description": "Wexond",
+      "description": "Orion",
       "role": "Viewer",
       "ext": "html"
     }
