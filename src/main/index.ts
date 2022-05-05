@@ -11,10 +11,10 @@ if (process.env.NODE_ENV === 'development') {
 import { platform } from 'os';
 import { Application } from './application';
 
-export const isNightly = app.name === 'wexond-nightly';
+export const isNightly = app.name === 'orion-nightly';
 
 app.allowRendererProcessReuse = true;
-app.name = isNightly ? 'Wexond Nightly' : 'Wexond';
+app.name = isNightly ? 'Orion Nightly' : 'Orion';
 
 (process.env as any)['ELECTRON_DISABLE_SECURITY_WARNINGS'] = true;
 

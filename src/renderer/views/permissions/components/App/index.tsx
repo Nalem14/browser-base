@@ -28,7 +28,7 @@ const getText = (permission: string) => {
     return 'Know your location';
   }
 
-  return '';
+  return 'Permission::' + permission;
 };
 
 export const App = observer(() => {

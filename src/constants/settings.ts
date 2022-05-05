@@ -3,7 +3,7 @@ import { remote, app } from 'electron';
 
 export const DEFAULT_SEARCH_ENGINES = [
   {
-    name: 'Orion Hub',
+    name: 'Orion Searx',
     url: 'https://searx.orion-hub.fr/search?q=%s',
     keywordsUrl: '',
     keyword: 'searx.orion-hub.fr',
