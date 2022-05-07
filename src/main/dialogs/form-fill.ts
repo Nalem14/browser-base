@@ -1,11 +1,11 @@
 import { VIEW_Y_OFFSET, DIALOG_MARGIN_TOP } from '~/constants/design';
-import { Dialog } from './dialog';
+import { PersistentDialog } from './dialog';
 import { AppWindow } from '../windows';
 
 const WIDTH = 208;
 const HEIGHT = 128;
 
-export class FormFillDialog extends Dialog {
+export class FormFillDialog extends PersistentDialog {
   public inputRect = {
     width: 0,
     height: 0,
@@ -14,7 +14,7 @@ export class FormFillDialog extends Dialog {
   };
 
   public constructor(appWindow: AppWindow) {
-    super(appWindow, {
+    super({
       name: 'form-fill',
       bounds: {
         height: HEIGHT,

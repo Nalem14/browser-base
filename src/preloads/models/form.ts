@@ -25,6 +25,8 @@ export class Form {
 
   public load() {
     for (const field of this.fields) {
+      console.log("LoadForm", field.getAttribute('name'));
+
       const { menu } = formFieldFilters;
       const isNameValid = menu.test(field.getAttribute('name'));
 
@@ -114,11 +116,14 @@ export class Form {
   }
 
   public onFormSubmit = () => {
+    console.log("OnFormSubmit");
     const username = this.usernameField.value;
     const password = this.passwordField.value;
 
-    const sameUsername = this.data && username === this.data.fields.username;
-    const samePassword = this.data && password === this.data.fields.password;
+    const sameUsername = (this.data && username === this.data.fields.username) || false;
+    const samePassword = (this.data && password === this.data.fields.password) || false;
+    console.log("checkSameInfo", sameUsername, samePassword);
+    console.log(this.data);
 
     if (!username.length || (sameUsername && samePassword)) return;
 

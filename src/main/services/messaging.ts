@@ -1,3 +1,4 @@
+import { FormFillDialog } from './../dialogs/form-fill';
 import { ipcMain } from 'electron';
 import { parse } from 'url';
 // import { getPassword, setPassword, deletePassword } from 'keytar';
@@ -17,6 +18,7 @@ import { showExtensionDialog } from '../dialogs/extension-popup';
 import { showDownloadsDialog } from '../dialogs/downloads';
 import { showZoomDialog } from '../dialogs/zoom';
 import { showTabGroupDialog } from '../dialogs/tabgroup';
+import { CredentialsDialog } from '../dialogs/credentials';
 
 export const runMessagingService = (appWindow: AppWindow) => {
   const { id } = appWindow;
@@ -121,6 +123,7 @@ export const runMessagingService = (appWindow: AppWindow) => {
     //   const items = await getFormFillMenuItems(name, value);
 
     //   if (items.length) {
+    //     let dialog = new CredentialsDialog(appWindow).show(rect);
     //     appWindow.dialogs.formFillDialog.send(`formfill-get-items`, items);
     //     appWindow.dialogs.formFillDialog.inputRect = rect;
 
@@ -154,7 +157,7 @@ export const runMessagingService = (appWindow: AppWindow) => {
 
         if (item && item.type === 'password') {
           item.fields.password = await getPassword(
-            'wexond',
+            'orion',
             `${hostname}-${item.fields.username}`,
           );
         }
@@ -220,7 +223,7 @@ export const runMessagingService = (appWindow: AppWindow) => {
         );
       }
 
-      await setPassword('wexond', `${hostname}-${username}`, password);
+      await setPassword('orion', `${hostname}-${username}`, password);
 
       appWindow.send(`has-credentials-${view.id}`, true);
     });
@@ -236,7 +239,7 @@ export const runMessagingService = (appWindow: AppWindow) => {
         },
       });
 
-      await deletePassword('wexond', `${view.hostname}-${fields.username}`);
+      await deletePassword('orion', `${view.hostname}-${fields.username}`);
 
       appWindow.viewManager.settingsView.webContents.send(
         'credentials-remove',
@@ -247,7 +250,7 @@ export const runMessagingService = (appWindow: AppWindow) => {
     ipcMain.on(
       'credentials-get-password',
       async (e, id: string, account: string) => {
-        const password = await getPassword('wexond', account);
+        const password = await getPassword('orion', account);
         e.sender.send(id, password);
       },
     );

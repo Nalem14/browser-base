@@ -1,13 +1,13 @@
 import { VIEW_Y_OFFSET } from '~/constants/design';
 import { AppWindow } from '../windows';
-import { Dialog } from '.';
+import { PersistentDialog } from './dialog';
 
 const WIDTH = 350;
 const HEIGHT = 271;
 
-export class CredentialsDialog extends Dialog {
+export class CredentialsDialog extends PersistentDialog {
   public constructor(appWindow: AppWindow) {
-    super(appWindow, {
+    super({
       name: 'credentials',
       bounds: {
         height: HEIGHT,
@@ -18,7 +18,7 @@ export class CredentialsDialog extends Dialog {
   }
 
   public rearrange() {
-    const { width } = this.appWindow.win.getContentBounds();
+    const { width } = this.browserWindow.getContentBounds();
     super.rearrange({
       x: width - WIDTH,
     });

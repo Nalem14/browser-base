@@ -15,7 +15,7 @@ const INCLUDE = resolve(__dirname, 'src');
 
 const BUILD_FLAGS = {
   ENABLE_EXTENSIONS: true,
-  ENABLE_AUTOFILL: false,
+  ENABLE_AUTOFILL: true,
 };
 
 process.env = {
@@ -134,7 +134,7 @@ function getConfig(...cfg) {
 
 const getHtml = (name) => {
   return new HtmlWebpackPlugin({
-    title: 'Wexond',
+    title: 'Orion',
     template: 'static/pages/app.html',
     filename: `${name}.html`,
     chunks: [name],
