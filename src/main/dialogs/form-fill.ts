@@ -31,7 +31,7 @@ export class FormFillDialog extends PersistentDialog {
         this.inputRect.height +
         VIEW_Y_OFFSET -
         DIALOG_MARGIN_TOP +
-        2,
+        24,
     });
   }
 

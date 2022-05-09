@@ -236,10 +236,7 @@ export const runMessagingService = (appWindow: AppWindow) => {
 
       await deletePassword('orion', `${view.hostname}-${fields.username}`);
 
-      appWindow.send(
-        'credentials-remove',
-        _id,
-      );
+      appWindow.send('credentials-remove', _id);
     });
 
     ipcMain.handle('credentials-get-password', async (e, id: string, account: string) => {
