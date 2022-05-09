@@ -1,6 +1,6 @@
 import { ipcRenderer } from 'electron';
 import * as React from 'react';
-import { action, makeObservable, observable } from 'mobx';
+import { action, IActionFactory, makeObservable, observable } from 'mobx';
 
 import { Textfield } from '~/renderer/components/Textfield';
 import { PasswordInput } from '~/renderer/components/PasswordInput';
@@ -8,7 +8,7 @@ import { IFormFillData } from '~/interfaces';
 import { DialogStore } from '~/models/dialog-store';
 
 export class Store extends DialogStore {
-  public content: 'save' | 'update' | 'list';
+  public content: 'save' | 'update' | 'list' = 'list';
 
   public list: IFormFillData[] = [];
 

@@ -1,3 +1,5 @@
+import { FormFillDialog } from './../dialogs/form-fill';
+import { CredentialsDialog } from './../dialogs/credentials';
 import { BrowserView, app, ipcMain } from 'electron';
 import { join } from 'path';
 import { SearchDialog } from '../dialogs/search';
@@ -57,6 +59,8 @@ export class DialogsService {
 
     this.persistentDialogs.push(new SearchDialog());
     this.persistentDialogs.push(new PreviewDialog());
+    this.persistentDialogs.push(new CredentialsDialog());
+    this.persistentDialogs.push(new FormFillDialog());
   }
 
   private createBrowserView() {

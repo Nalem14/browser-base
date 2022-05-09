@@ -10,7 +10,7 @@ export class Store extends DialogStore {
   public constructor() {
     super({ hideOnBlur: false });
 
-    makeObservable({ items: observable });
+    makeObservable(this, { items: observable });
 
     ipcRenderer.on(`formfill-get-items`, (e, items) => {
       this.items = items;

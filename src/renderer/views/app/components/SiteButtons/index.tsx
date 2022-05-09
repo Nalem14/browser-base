@@ -42,10 +42,11 @@ const onKeyClick = () => {
     (r) => r.url === hostname && r.fields.username,
   );
 
-  ipcRenderer.send(`credentials-show-${store.windowId}`, {
+  const data = JSON.parse(JSON.stringify({
     content: 'list',
     list,
-  });
+  }))
+  ipcRenderer.send(`credentials-show-${store.windowId}`, data);
 };
 
 ipcRenderer.on('show-add-bookmark-dialog', () => {

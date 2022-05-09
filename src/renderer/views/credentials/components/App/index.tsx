@@ -2,6 +2,7 @@ import { ipcRenderer } from 'electron';
 import * as React from 'react';
 import { observer } from 'mobx-react-lite';
 
+import { getWebUIURL } from '~/common/webui';
 import store from '../../store';
 import { Textfield } from '~/renderer/components/Textfield';
 import { PasswordInput } from '~/renderer/components/PasswordInput';
@@ -27,6 +28,17 @@ const onSave = () => {
 
 const onClose = () => {
   ipcRenderer.send(`credentials-hide-${store.windowId}`);
+};
+
+const onManage = () => {
+  // Open settings menu
+  const url = getWebUIURL("settings");
+  ipcRenderer.send(`add-tab-${store.windowId}`, {
+    url,
+    active: true,
+  });
+  store.hide();
+  ipcRenderer.send('show-settings-menu');
 };
 
 const Fields = observer(() => {
@@ -73,7 +85,7 @@ export const App = observer(() => {
             foreground={BLUE_500}
             background="transparent"
             style={{ marginRight: 'auto', padding: '0px 12px' }}
-            onClick={onClose}
+            onClick={onManage}
           >
             Manage passwords
           </Button>

@@ -6,7 +6,8 @@ import { IFormFillData } from '~/interfaces';
 import { StyledItem, Username, Password, DeleteIcon } from './styles';
 
 const onDelete = (data: IFormFillData) => () => {
-  store.remove(data);
+  let _data = JSON.parse(JSON.stringify(data));
+  store.remove(_data);
 };
 
 const Item = ({ data }: { data: IFormFillData }) => {

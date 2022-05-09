@@ -179,10 +179,11 @@ if (window.location.href.startsWith(WEBUI_BASE_URL)) {
 
       postMsg(data, res);
     } else if (data.type === 'credentials-get-password') {
-      const res = await ipcRenderer.invoke(
-        'credentials-get-password',
+      const res = await ipcRenderer.invoke('credentials-get-password',
+        data.id,
         data.data,
       );
+
       postMsg(data, res);
     } else if (data.type === 'save-settings') {
       ipcRenderer.send('save-settings', { settings: data.data });

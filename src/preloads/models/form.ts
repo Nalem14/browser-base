@@ -25,8 +25,6 @@ export class Form {
 
   public load() {
     for (const field of this.fields) {
-      console.log("LoadForm", field.getAttribute('name'));
-
       const { menu } = formFieldFilters;
       const isNameValid = menu.test(field.getAttribute('name'));
 
@@ -116,7 +114,6 @@ export class Form {
   }
 
   public onFormSubmit = () => {
-    console.log("OnFormSubmit");
     const username = this.usernameField.value;
     const password = this.passwordField.value;
 

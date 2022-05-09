@@ -1,7 +1,8 @@
+import { CredentialsDialog } from './../dialogs/credentials';
 import { FormFillDialog } from './../dialogs/form-fill';
 import { ipcMain } from 'electron';
 import { parse } from 'url';
-// import { getPassword, setPassword, deletePassword } from 'keytar';
+import { getPassword, setPassword, deletePassword } from 'keytar';
 
 import { AppWindow } from '../windows';
 import { Application } from '../application';
@@ -18,7 +19,6 @@ import { showExtensionDialog } from '../dialogs/extension-popup';
 import { showDownloadsDialog } from '../dialogs/downloads';
 import { showZoomDialog } from '../dialogs/zoom';
 import { showTabGroupDialog } from '../dialogs/tabgroup';
-import { CredentialsDialog } from '../dialogs/credentials';
 
 export const runMessagingService = (appWindow: AppWindow) => {
   const { id } = appWindow;
@@ -118,36 +118,31 @@ export const runMessagingService = (appWindow: AppWindow) => {
   });
 
   if (process.env.ENABLE_AUTOFILL) {
-    // TODO: autofill
-    // ipcMain.on(`form-fill-show-${id}`, async (e, rect, name, value) => {
-    //   const items = await getFormFillMenuItems(name, value);
+    ipcMain.on(`form-fill-show-${id}`, async (e, rect, name, value) => {
+      const items = await getFormFillMenuItems(name, value);
+      const dialog = Application.instance.dialogs.get("form-fill") as FormFillDialog;
 
-    //   if (items.length) {
-    //     let dialog = new CredentialsDialog(appWindow).show(rect);
-    //     appWindow.dialogs.formFillDialog.send(`formfill-get-items`, items);
-    //     appWindow.dialogs.formFillDialog.inputRect = rect;
+      if (items.length) {
+        dialog.send("formfill-get-items", items);
+        dialog.show(appWindow.win, false);
+        dialog.inputRect = rect;
+        dialog.resize(items.length, items.find((r) => r.subtext) != null);
+        dialog.rearrange();
+      } else {
+        dialog.hide();
+      }
+    });
 
-    //     appWindow.dialogs.formFillDialog.resize(
-    //       items.length,
-    //       items.find((r) => r.subtext) != null,
-    //     );
-    //     appWindow.dialogs.formFillDialog.rearrange();
-    //     appWindow.dialogs.formFillDialog.show(false);
-    //   } else {
-    //     appWindow.dialogs.formFillDialog.hide();
-    //   }
-    // });
-
-    // ipcMain.on(`form-fill-hide-${id}`, () => {
-    //   appWindow.dialogs.formFillDialog.hide();
-    // });
+    ipcMain.on(`form-fill-hide-${id}`, () => {
+      const dialog = Application.instance.dialogs.get("form-fill") as FormFillDialog;
+      dialog.hide();
+    });
 
     ipcMain.on(
       `form-fill-update-${id}`,
       async (e, _id: string, persistent = false) => {
-        const url = appWindow.viewManager.selected.url;
+        const { url } = Application.instance.windows.current.viewManager.selected;
         const { hostname } = parse(url);
-
         const item =
           _id &&
           (await Application.instance.storage.findOne<IFormFillData>({
@@ -156,9 +151,7 @@ export const runMessagingService = (appWindow: AppWindow) => {
           }));
 
         if (item && item.type === 'password') {
-          item.fields.password = await getPassword(
-            'orion',
-            `${hostname}-${item.fields.username}`,
+          item.fields.password = await getPassword('orion',`${hostname}-${item.fields.username}`,
           );
         }
 
@@ -170,15 +163,17 @@ export const runMessagingService = (appWindow: AppWindow) => {
       },
     );
 
-    // ipcMain.on(`credentials-show-${id}`, (e, data) => {
-    //   appWindow.dialogs.credentialsDialog.send('credentials-update', data);
-    //   appWindow.dialogs.credentialsDialog.rearrange();
-    //   appWindow.dialogs.credentialsDialog.show();
-    // });
+    ipcMain.on(`credentials-show-${id}`, (e, data) => {
+      const dialog = Application.instance.dialogs.get("credentials") as CredentialsDialog;
+      dialog.send("credentials-update", data);
+      dialog.show(appWindow.win);
+      dialog.rearrange();
+    });
 
-    // ipcMain.on(`credentials-hide-${id}`, () => {
-    //   appWindow.dialogs.credentialsDialog.hide();
-    // });
+    ipcMain.on(`credentials-hide-${id}`, () => {
+      const dialog = Application.instance.dialogs.get("credentials") as CredentialsDialog;
+      dialog.hide();
+    });
 
     ipcMain.on(`credentials-save-${id}`, async (e, data) => {
       const { username, password, update, oldUsername } = data;
@@ -199,7 +194,7 @@ export const runMessagingService = (appWindow: AppWindow) => {
           },
         });
 
-        appWindow.viewManager.settingsView.webContents.send(
+        appWindow.send(
           'credentials-insert',
           item,
         );
@@ -217,7 +212,7 @@ export const runMessagingService = (appWindow: AppWindow) => {
           },
         });
 
-        appWindow.viewManager.settingsView.webContents.send(
+        appWindow.send(
           'credentials-update',
           { ...data, hostname },
         );
@@ -241,16 +236,14 @@ export const runMessagingService = (appWindow: AppWindow) => {
 
       await deletePassword('orion', `${view.hostname}-${fields.username}`);
 
-      appWindow.viewManager.settingsView.webContents.send(
+      appWindow.send(
         'credentials-remove',
         _id,
       );
     });
 
-    ipcMain.on(
-      'credentials-get-password',
-      async (e, id: string, account: string) => {
-        const password = await getPassword('orion', account);
+    ipcMain.handle('credentials-get-password', async (e, id: string, account: string) => {
+        const password = await getPassword('orion', `${account}`);
         e.sender.send(id, password);
       },
     );
