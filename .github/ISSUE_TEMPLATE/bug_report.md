@@ -21,8 +21,8 @@ assignees: ''
 
 **Details:**
  - Operating System: 
- - Wexond version: 
- - Last known working Wexond version: 
+ - Orion version: 
+ - Last known working Orion version: 
 
 **Additional context**
 <!-- Add any other context about the problem here. -->
