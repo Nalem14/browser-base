@@ -101,7 +101,7 @@ export class Form {
   public get usernameField() {
     return this.fields.find((r) => {
       const name = r.getAttribute('name');
-      return name === 'username' || name === 'login' || 'email';
+      return name === 'username' || name === 'login' || name === 'email' || name === "pseudo" || name === "user_name";
     });
   }
 
@@ -109,7 +109,7 @@ export class Form {
     return this.fields.find((r) => {
       const typeAttr = r.getAttribute('type');
       const name = r.getAttribute('name');
-      return typeAttr === 'password' && name === 'password';
+      return typeAttr === 'password' && (name === 'password' || name === "pass" || name === "passwd");
     });
   }
 
@@ -119,8 +119,8 @@ export class Form {
 
     const sameUsername = (this.data && username === this.data.fields.username) || false;
     const samePassword = (this.data && password === this.data.fields.password) || false;
-    console.log("checkSameInfo", sameUsername, samePassword);
-    console.log(this.data);
+    // console.log("checkSameInfo", sameUsername, samePassword);
+    // console.log(this.data);
 
     if (!username.length || (sameUsername && samePassword)) return;
 
