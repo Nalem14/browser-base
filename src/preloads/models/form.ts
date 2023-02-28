@@ -26,7 +26,7 @@ export class Form {
   public load() {
     for (const field of this.fields) {
       const { menu } = formFieldFilters;
-      const isNameValid = menu.test(field.getAttribute('name'));
+      const isNameValid = menu.test(field.getAttribute('name') ?? field.getAttribute('id'));
 
       if (field instanceof HTMLInputElement && isNameValid) {
         field.addEventListener('focus', this.onFieldFocus);
@@ -50,7 +50,7 @@ export class Form {
 
   public validateField(field: FormField) {
     const { name, type } = formFieldFilters;
-    const isNameValid = name.test(field.getAttribute('name'));
+    const isNameValid = name.test(field.getAttribute('name') ?? field.getAttribute('id'));
     const isTypeValid =
       type.test(field.getAttribute('type')) ||
       field instanceof HTMLSelectElement;
@@ -66,7 +66,7 @@ export class Form {
         const changed = this.changedFields.indexOf(field) !== -1;
         const temp = this.tempFields.indexOf(field) !== -1;
         const value = data
-          ? getFormFillValue(field.getAttribute('name'), data)
+          ? getFormFillValue(field.getAttribute('name') ?? field.getAttribute('id'), data)
           : '';
 
         if (!field.value.length || !changed) {
@@ -100,15 +100,17 @@ export class Form {
 
   public get usernameField() {
     return this.fields.find((r) => {
-      const name = r.getAttribute('name');
-      return name === 'username' || name === 'login' || name === 'email' || name === "pseudo" || name === "user_name";
+      const { name } = formFieldFilters;
+      const fieldName = r.getAttribute('name') ?? r.getAttribute('id');
+      return  name.test(fieldName);
+      // return name === 'username' || name === 'login' || name === 'email' || name === "pseudo" || name === "user_name";
     });
   }
 
   public get passwordField() {
     return this.fields.find((r) => {
       const typeAttr = r.getAttribute('type');
-      const name = r.getAttribute('name');
+      const name = r.getAttribute('name') ?? r.getAttribute('id');
       return typeAttr === 'password' && (name === 'password' || name === "pass" || name === "passwd");
     });
   }
@@ -146,7 +148,7 @@ export class Form {
         x: Math.floor(rects.left),
         y: Math.floor(rects.top),
       },
-      field.getAttribute('name'),
+      field.getAttribute('name') ?? field.getAttribute('id'),
       field.value,
     );
   };
