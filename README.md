@@ -1,15 +1,11 @@
 <p align="center">
-  <a href="https://orion-hub.fr"><img src="static/icons/icon.png" width="256"></a>
+  <a href="https://searx.orion-hub.fr"><img src="static/icons/icon.png" width="256"></a>
 </p>
 
 <div align="center">
   <h1>Orion Web Browser</h1>
 
 [![Actions Status](https://github.com/nalem14/browser-base/workflows/Build/badge.svg)](https://github.com/nalem14/browser-base/actions)
-[![Downloads](https://img.shields.io/github/downloads/nalem14/browser-base/total.svg?style=flat-square)](https://wexond.net)
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fwexond%2Fwexond.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fwexond%2Fwexond?ref=badge_shield)
-[![PayPal](https://img.shields.io/badge/PayPal-Donate-brightgreen?style=flat-square)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=VCPPFUAL4R6M6&source=url)
-[![Discord](https://discordapp.com/api/guilds/307605794680209409/widget.png?style=shield)](https://discord.gg/P7Vn4VX)
 
 Orion Web Browser is a modern web browser, based on [Wexond](https://github.com/nalem14/browser-base). It is focused on privacy protection.
 - Integrated Searx search engine focused on privacy (by default, can be customized)
