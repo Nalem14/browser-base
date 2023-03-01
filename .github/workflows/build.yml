@@ -12,12 +12,12 @@ jobs:
 
     steps:
       - name: Check out Git repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Install Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: 19
+          node-version: 16
 
       # - name: Install required build toolchain
       # if: matrix.os == 'ubuntu-latest'
@@ -29,7 +29,7 @@ jobs:
           ADBLOCK: true
 
       - name: Get commit message
-        run: echo "::set-output name=message::$(git log --no-merges -1 --oneline)"
+        run: echo "message=$(git log --no-merges -1 --oneline)" >> $GITHUB_OUTPUT
 
       - name: Build the app
         run: yarn ci-build
